@@ -352,7 +352,7 @@
       font-size: 0.75rem;
       font-weight: 600;
       letter-spacing: 0.12em;
-      text-transform: uppercase;
+      text-transform: none;
       color: var(--mint);
       margin-bottom: 16px;
     }
@@ -608,7 +608,67 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── RESPONSIVE ── */
+
+    /* ── SCROLL ANIMATIONS ── */
+
+    /* Base hidden state — everything that will animate in */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+    .reveal.reveal--left {
+      transform: translateX(-40px);
+    }
+    .reveal.reveal--right {
+      transform: translateX(40px);
+    }
+    .reveal.reveal--scale {
+      transform: scale(0.93) translateY(24px);
+    }
+    /* Visible state */
+    .reveal.in-view {
+      opacity: 1;
+      transform: none;
+    }
+    /* Stagger delays for children */
+    .reveal-stagger > * {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+    .reveal-stagger.in-view > *:nth-child(1) { opacity:1; transform:none; transition-delay: 0.05s; }
+    .reveal-stagger.in-view > *:nth-child(2) { opacity:1; transform:none; transition-delay: 0.15s; }
+    .reveal-stagger.in-view > *:nth-child(3) { opacity:1; transform:none; transition-delay: 0.25s; }
+    .reveal-stagger.in-view > *:nth-child(4) { opacity:1; transform:none; transition-delay: 0.35s; }
+    .reveal-stagger.in-view > *:nth-child(5) { opacity:1; transform:none; transition-delay: 0.45s; }
+    .reveal-stagger.in-view > *:nth-child(6) { opacity:1; transform:none; transition-delay: 0.55s; }
+    .reveal-stagger.in-view > *:nth-child(7) { opacity:1; transform:none; transition-delay: 0.62s; }
+    .reveal-stagger.in-view > *:nth-child(8) { opacity:1; transform:none; transition-delay: 0.69s; }
+
+    /* Section label + heading pair */
+    .reveal-heading .section-tag,
+    .reveal-heading h2 {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal-heading.in-view .section-tag { opacity:1; transform:none; transition-delay: 0s; }
+    .reveal-heading.in-view h2        { opacity:1; transform:none; transition-delay: 0.12s; }
+
+    /* Respect reduced-motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .reveal-stagger > *, .reveal-heading .section-tag, .reveal-heading h2 {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+    }
 
     /* ── MINTD CARD SECTION ── */
     .card-section { background: var(--bg2); overflow: hidden; }
@@ -728,7 +788,7 @@
       color: var(--mint);
       line-height: 1;
     }
-    .card-logo span { color: rgba(255,255,255,0.5); }
+    .card-logo span { color: rgba(255,255,255,0.85); }
 
     /* Apple Pay badge */
     .card-applepay {
@@ -780,24 +840,7 @@
     }
     .card-perk-text p { color: var(--muted); font-size: 0.82rem; line-height: 1.5; }
 
-    @media (max-width: 768px) {
-      .card-grid { grid-template-columns: 1fr; gap: 48px; }
-      .mintd-card { width: 100%; max-width: 320px; }
-    }
 
-    @media (max-width: 768px) {
-      nav { padding: 16px 20px; }
-      .nav-links { display: none; }
-      section { padding: 70px 20px; }
-      .stats { flex-direction: column; }
-      .stat { border-right: none; border-bottom: 1px solid var(--border); }
-      .stat:last-child { border-bottom: none; }
-      .ai-grid { grid-template-columns: 1fr; }
-      .goals-grid { grid-template-columns: 1fr; }
-      .steps::before { display: none; }
-      .steps { gap: 40px; }
-      footer { flex-direction: column; text-align: center; }
-    }
     /* ── WAITLIST FORM ── */
     .waitlist-form-wrap {
       max-width: 480px;
@@ -902,9 +945,147 @@
     }
     .form-success p { color: var(--muted); font-size: 0.9rem; }
 
-    @media (max-width: 540px) {
-      .form-row.two-col { flex-direction: column; }
-      .waitlist-form { padding: 24px 20px; }
+
+
+    /* ── MOBILE NAV DRAWER ── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 57px; left: 0; right: 0;
+      background: rgba(7,8,13,0.97);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      flex-direction: column;
+      z-index: 99;
+      padding: 8px 0 16px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav-link {
+      padding: 14px 24px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.15s;
+    }
+    .mobile-nav-link:last-child { border-bottom: none; }
+    .mobile-nav-link:hover { color: var(--text); }
+    .mobile-nav-cta {
+      margin: 12px 20px 0;
+      background: var(--mint);
+      color: #07080d !important;
+      border-radius: 100px;
+      text-align: center;
+      font-weight: 600;
+      border-bottom: none;
+    }
+
+    /* ─────────────────────────────────────────────
+       RESPONSIVE — MOBILE FIRST
+    ───────────────────────────────────────────── */
+
+    /* Tablet and below */
+    @media (max-width: 900px) {
+      .card-grid { grid-template-columns: 1fr; gap: 48px; }
+      .card-copy h2 { max-width: 100%; }
+      .mintd-card-wrap { order: -1; }
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+
+      /* NAV */
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+
+      /* HERO */
+      .hero { padding: 100px 20px 60px; }
+      .hero-glow { width: 400px; height: 400px; }
+
+      /* PHONE MOCKUP — scale down so it fits comfortably */
+      .phone-wrap { width: min(260px, 75vw); }
+      .phone-frame {
+        width: min(260px, 75vw);
+        height: calc(min(260px, 75vw) * 2796 / 1419);
+      }
+
+      /* STATS */
+      .stats { flex-direction: column; }
+      .stat {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        min-width: unset;
+        padding: 28px 20px;
+      }
+      .stat:last-child { border-bottom: none; }
+      .stat-num { font-size: 2rem; }
+
+      /* SECTIONS */
+      section { padding: 64px 20px; }
+      .cta-section { padding: 80px 20px; }
+
+      /* FEATURES */
+      .features-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 40px; }
+      .feature-card { padding: 28px 24px; }
+
+      /* STEPS */
+      .steps { grid-template-columns: 1fr; gap: 36px; margin-top: 40px; }
+      .steps::before { display: none; }
+      .step { padding: 0 8px; }
+
+      /* CARD SECTION */
+      .card-grid { grid-template-columns: 1fr; gap: 40px; }
+      .mintd-card { width: min(300px, 85vw); height: auto; aspect-ratio: 1.6 / 1; padding: 20px; }
+      .mintd-card-wrap { order: -1; }
+
+      /* AI */
+      .ai-grid { grid-template-columns: 1fr; gap: 36px; margin-top: 40px; }
+
+      /* GOALS */
+      .goals-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 40px; }
+      .goal-card { padding: 20px; }
+
+      /* FOOTER */
+      footer { flex-direction: column; text-align: center; gap: 10px; }
+    }
+
+    /* Small phones */
+    @media (max-width: 480px) {
+      h1 { font-size: clamp(2.4rem, 11vw, 3rem); }
+      .hero-cta { flex-direction: column; align-items: stretch; gap: 12px; }
+      .btn-primary, .btn-ghost { text-align: center; padding: 14px 24px; }
+      .phone-wrap { width: min(240px, 72vw); margin-top: 48px; }
+      .phone-frame { width: min(240px, 72vw); height: calc(min(240px, 72vw) * 2796 / 1419); }
+      section { padding: 52px 16px; }
+      .cta-section { padding: 64px 16px; }
+      .form-row.two-col { flex-direction: column; gap: 14px; }
+      .waitlist-form { padding: 24px 18px; }
+      .mintd-card { padding: 16px; }
+      .card-number { font-size: 0.78rem; letter-spacing: 0.12em; }
+      .steps { gap: 28px; }
+      .stat-num { font-size: 1.8rem; }
     }
 
   </style>
@@ -914,13 +1095,23 @@
   <!-- NAV -->
   <nav>
     <a href="#" class="logo" style="text-decoration:none;">mint<span>d</span></a>
-    <div class="nav-links">
-      <a href="#features">Features</a>
+    <div class="nav-links" id="navLinks">
+      <a href="#features">features</a>
       <a href="#how">How it works</a>
-      <a href="#goals">Goals</a>
-      <a href="#cta" class="btn-nav">Join the waitlist</a>
+      <a href="#goals">goals</a>
+      <a href="#cta" class="btn-nav">join the waitlist</a>
     </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+  <!-- Mobile nav drawer -->
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#features" class="mobile-nav-link">features</a>
+    <a href="#how" class="mobile-nav-link">How it works</a>
+    <a href="#goals" class="mobile-nav-link">goals</a>
+    <a href="#cta" class="mobile-nav-link mobile-nav-cta">join the waitlist →</a>
+  </div>
 
   <!-- HERO -->
   <section class="hero">
@@ -929,8 +1120,8 @@
     <h1>money skills<br>for the next<br><em>generation</em></h1>
     <p class="hero-sub">track spending, hit your savings goals, and get personalized advice — all powered by AI built for teens.</p>
     <div class="hero-cta">
-      <a href="#cta" class="btn-primary">Join the waitlist</a>
-      <a href="#features" class="btn-ghost">See how it works</a>
+      <a href="#cta" class="btn-primary">join the waitlist</a>
+      <a href="#features" class="btn-ghost">see how it works</a>
     </div>
 
     <div class="phone-wrap">
@@ -966,29 +1157,29 @@
               </div>
             </div>
             <div class="phone-screen">
-              <div class="phone-balance-label">Total balance</div>
+              <div class="phone-balance-label">total balance</div>
               <div class="phone-balance">$<span>847</span>.52</div>
               <div class="phone-cards">
                 <div class="phone-card">
                   <div class="phone-card-icon">↑</div>
-                  <div class="phone-card-label">Saved this month</div>
+                  <div class="phone-card-label">saved this month</div>
                   <div class="phone-card-val up">+$64</div>
                 </div>
                 <div class="phone-card">
                   <div class="phone-card-icon">↓</div>
-                  <div class="phone-card-label">Spent this week</div>
+                  <div class="phone-card-label">spent this week</div>
                   <div class="phone-card-val down">−$38</div>
                 </div>
               </div>
               <div class="phone-bar-label">
-                <span>🎧 New AirPods</span>
+                <span>🎧 new AirPods</span>
                 <span>73%</span>
               </div>
               <div class="phone-bar">
                 <div class="phone-bar-fill" style="width:73%"></div>
               </div>
               <div class="phone-bar-label">
-                <span>🗺️ Atlanta Trip</span>
+                <span>🗺️ atlanta trip</span>
                 <span>41%</span>
               </div>
               <div class="phone-bar">
@@ -996,7 +1187,7 @@
               </div>
               <div class="phone-ai">
                 <strong>✦ mintd AI</strong>
-                Skip one coffee run this week and hit your AirPods goal 3 days early! ☕→🎧
+                skip one coffee run this week and hit your AirPods goal 3 days early! ☕→🎧
               </div>
             </div><!-- end phone-screen -->
         </div><!-- end phone-screen-area -->
@@ -1005,7 +1196,7 @@
   </section>
 
   <!-- STATS -->
-  <div class="stats">
+  <div class="stats reveal-stagger">
     <div class="stat">
       <div class="stat-num">38%</div>
       <div class="stat-label">of Gen Z are financially literate — the lowest of any generation</div>
@@ -1031,9 +1222,11 @@
   <!-- FEATURES -->
   <section id="features">
     <div class="container">
-      <div class="section-tag">Features</div>
-      <h2>everything you need to <em>level up</em> your finances</h2>
-      <div class="features-grid">
+      <div class="reveal-heading">
+        <div class="section-tag">features</div>
+        <h2>everything you need to <em>level up</em> your finances</h2>
+      </div>
+      <div class="features-grid reveal-stagger">
         <div class="feature-card">
           <div class="feature-icon">📊</div>
           <h3>spend tracking</h3>
@@ -1076,9 +1269,11 @@
   <!-- HOW IT WORKS -->
   <section id="how" class="how">
     <div class="container">
-      <div class="section-tag">How it works</div>
-      <h2>up and running in <em>minutes</em></h2>
-      <div class="steps">
+      <div class="reveal-heading">
+        <div class="section-tag">how it works</div>
+        <h2>up and running in <em>minutes</em></h2>
+      </div>
+      <div class="steps reveal-stagger">
         <div class="step">
           <div class="step-num">01</div>
           <h3>create your account</h3>
@@ -1106,11 +1301,11 @@
   <!-- MINTD CARD -->
   <section id="card" class="card-section">
     <div class="container">
-      <div class="section-tag">mintd Card</div>
+      <div class="section-tag">mintd card</div>
       <div class="card-grid">
 
         <!-- Card visual -->
-        <div class="mintd-card-wrap">
+        <div class="mintd-card-wrap reveal reveal--scale">
           <div class="mintd-card">
             <div class="card-blob card-blob-1"></div>
             <div class="card-blob card-blob-2"></div>
@@ -1128,16 +1323,16 @@
         </div>
 
         <!-- Copy -->
-        <div class="card-copy">
+        <div class="card-copy reveal reveal--right">
           <div>
-            <div class="section-tag">Digital-only</div>
+            <div class="section-tag">digital-only</div>
             <h2>your card lives in your <em>phone</em></h2>
           </div>
-          <div class="card-perks">
+          <div class="card-perks reveal-stagger">
             <div class="card-perk">
               <div class="card-perk-icon">📱</div>
               <div class="card-perk-text">
-                <h4>Apple Pay ready</h4>
+                <h4>apple pay ready</h4>
                 <p>add your mintd card to Apple Pay in seconds and tap to pay anywhere contactless payments are accepted.</p>
               </div>
             </div>
@@ -1165,10 +1360,12 @@
   <!-- AI -->
   <section id="ai">
     <div class="container">
-      <div class="section-tag">AI Coach</div>
-      <h2>advice that actually <em>makes sense</em> for your life</h2>
+      <div class="reveal-heading">
+        <div class="section-tag">ai coach</div>
+        <h2>advice that actually <em>makes sense</em> for your life</h2>
+      </div>
       <div class="ai-grid">
-        <div class="ai-chat">
+        <div class="ai-chat reveal reveal--left">
           <div class="chat-msg ai">
             <div class="chat-avatar ai-av">AI</div>
             <div class="chat-bubble">hey! you spent $47 on food this week — $12 more than usual. want a quick tip to stay under budget?</div>
@@ -1186,7 +1383,7 @@
             <div class="chat-bubble">that's actually doable. setting a reminder now!</div>
           </div>
         </div>
-        <div class="ai-points">
+        <div class="ai-points reveal-stagger reveal--right">
           <div class="ai-point">
             <div class="ai-dot"></div>
             <div>
@@ -1223,9 +1420,11 @@
   <!-- GOALS -->
   <section id="goals" style="background: var(--bg2);">
     <div class="container">
-      <div class="section-tag">Savings Goals</div>
-      <h2>save for what <em>matters to you</em></h2>
-      <div class="goals-grid">
+      <div class="reveal-heading">
+        <div class="section-tag">savings goals</div>
+        <h2>save for what <em>matters to you</em></h2>
+      </div>
+      <div class="goals-grid reveal-stagger">
         <div class="goal-card">
           <div class="goal-header">
             <div class="goal-emoji">🎧</div>
@@ -1272,7 +1471,7 @@
     <h2>your money journey<br>starts <em>today</em></h2>
     <p>join thousands of teens building real money habits. free to use, no credit card needed.</p>
 
-    <div class="waitlist-form-wrap">
+    <div class="waitlist-form-wrap reveal">
       <form class="waitlist-form" action="https://formspree.io/f/xbdbzqbp" method="POST" id="waitlistForm">
         <div class="form-row">
           <div class="form-group">
@@ -1324,9 +1523,24 @@
   <!-- FOOTER -->
   <footer>
     <div class="footer-logo">mintd</div>
-    <p>© 2026 mintd. Built for teens who mean business.</p>
+    <p>© 2026 mintd. built for teens who mean business.</p>
   </footer>
   <script>
+    // Mobile nav toggle
+    const navToggle = document.getElementById('navToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    navToggle.addEventListener('click', () => {
+      const open = mobileNav.classList.toggle('open');
+      navToggle.classList.toggle('open', open);
+    });
+    // Close mobile nav when a link is clicked
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileNav.classList.remove('open');
+        navToggle.classList.remove('open');
+      });
+    });
+
     // Waitlist form — submits to Formspree, shows success state on completion
     const form = document.getElementById('waitlistForm');
     const success = document.getElementById('formSuccess');
@@ -1355,6 +1569,25 @@
         }
       });
     }
+  </script>
+
+  <script>
+    // ── Scroll reveal via IntersectionObserver ──
+    const revealEls = document.querySelectorAll('.reveal, .reveal-stagger, .reveal-heading');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target); // fire once
+        }
+      });
+    }, {
+      threshold: 0.12,       // trigger when 12% visible
+      rootMargin: '0px 0px -40px 0px'  // slight offset from bottom edge
+    });
+
+    revealEls.forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
