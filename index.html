@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>mintd — money, made for you</title>
   <meta name="description" content="Empowering teens to manage their finances. mintd tracks spending, sets savings goals, and offers personalized AI money advice.">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%2307080d' stroke='%2300e5a0' stroke-width='3'/%3E%3Ctext x='32' y='22' text-anchor='middle' font-family='Arial,sans-serif' font-weight='900' font-size='13' fill='%2300e5a0'%3E%24%3C/text%3E%3Ctext x='26' y='42' text-anchor='middle' font-family='Arial,sans-serif' font-weight='900' font-size='18' fill='%2300e5a0'%3Em%3C/text%3E%3Ctext x='46' y='46' text-anchor='middle' font-family='Arial,sans-serif' font-weight='900' font-size='13' fill='white'%3Ed%3C/text%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
@@ -185,69 +185,47 @@
     }
     .btn-ghost:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
 
-    /* ── PHONE MOCKUP — iPhone 15 Pro ── */
+    /* ── PHONE MOCKUP — real iPhone image overlay ── */
     .phone-wrap {
       margin-top: 72px;
       animation: fadeUp 0.6s ease 0.4s both;
       position: relative;
       display: inline-block;
+      width: 290px;
     }
 
-    /* Titanium outer frame */
+    /* iPhone photo overlaid on top; black screen area becomes transparent via mix-blend-mode:screen */
+    .phone-img-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Wrapper sized to the iPhone image aspect ratio (1419 × 2796) */
     .phone-frame {
       position: relative;
       width: 290px;
-      background: linear-gradient(160deg, #4a4a4c 0%, #2c2c2e 40%, #1c1c1e 100%);
-      border-radius: 52px;
-      padding: 3px;
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,0.12),
-        inset 0 0 0 1px rgba(0,0,0,0.8),
-        0 60px 120px rgba(0,0,0,0.75),
-        0 20px 40px rgba(0,0,0,0.5),
-        0 0 80px rgba(0,229,160,0.07);
+      height: calc(290px * 2796 / 1419);
+      background: transparent;
+      /* subtle mint glow beneath */
+      filter: drop-shadow(0 0 40px rgba(0,229,160,0.08));
     }
 
-    /* Side hardware buttons */
-    .phone-btn-action, .phone-btn-vol-up, .phone-btn-vol-down, .phone-btn-power {
-      position: absolute;
-      background: linear-gradient(90deg, #2a2a2c, #3a3a3c, #2a2a2c);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
-    }
-    .phone-btn-action {
-      left: -4px; top: 108px;
-      width: 4px; height: 34px;
-      border-radius: 2px 0 0 2px;
-    }
-    .phone-btn-vol-up {
-      left: -4px; top: 158px;
-      width: 4px; height: 54px;
-      border-radius: 2px 0 0 2px;
-    }
-    .phone-btn-vol-down {
-      left: -4px; top: 222px;
-      width: 4px; height: 54px;
-      border-radius: 2px 0 0 2px;
-    }
-    .phone-btn-power {
-      right: -4px; top: 172px;
-      width: 4px; height: 74px;
-      border-radius: 0 2px 2px 0;
-    }
-
-    /* Screen bezel */
-    .phone {
-      width: 100%;
-      background: #000;
-      border-radius: 50px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* App screen */
+    /* App content positioned inside the screen area of the phone image */
+    /* Top bezel ~4.2%, bottom ~4.2%, left/right ~5.5% */
     .phone-screen-area {
+      position: absolute;
+      top: 4.2%;
+      left: 5.5%;
+      right: 5.5%;
+      bottom: 4.2%;
       background: var(--card);
-      border-radius: 50px;
+      border-radius: 38px;
       overflow: hidden;
     }
 
@@ -255,13 +233,13 @@
     .dynamic-island {
       display: flex;
       justify-content: center;
-      padding: 14px 0 0;
+      padding: 10px 0 0;
       position: relative;
       z-index: 5;
     }
     .dynamic-island-pill {
-      width: 120px;
-      height: 35px;
+      width: 80px;
+      height: 22px;
       background: #000;
       border-radius: 20px;
       box-shadow: 0 0 0 1px rgba(255,255,255,0.05);
@@ -838,12 +816,9 @@
 
     <div class="phone-wrap">
       <div class="phone-frame">
-        <div class="phone-btn-action"></div>
-        <div class="phone-btn-vol-up"></div>
-        <div class="phone-btn-vol-down"></div>
-        <div class="phone-btn-power"></div>
-        <div class="phone">
-          <div class="phone-screen-area">
+        <!-- Real iPhone photo overlaid; mix-blend-mode:screen makes black screen transparent -->
+        <img class="phone-img-overlay" src="iphone-mockup.png" alt="">
+        <div class="phone-screen-area">
             <div class="dynamic-island">
               <div class="dynamic-island-pill"></div>
             </div>
@@ -888,11 +863,10 @@
                 <strong>✦ mintd AI</strong>
                 Skip one coffee run this week and hit your AirPods goal 3 days early! ☕→🎧
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </div><!-- end phone-screen -->
+        </div><!-- end phone-screen-area -->
+      </div><!-- end phone-frame -->
+    </div><!-- end phone-wrap -->
   </section>
 
   <!-- STATS -->
@@ -1070,7 +1044,7 @@
           </div>
           <div class="chat-msg ai">
             <div class="chat-avatar ai-av">AI</div>
-            <div class="chat-bubble">Nice goal! At your current savings rate, you'll get there in <strong>6 weeks</strong>. Bring lunch from home twice this week and you'll shave off 2 weeks. </div>
+            <div class="chat-bubble">Nice goal! At your current savings rate, you'll get there in <strong>6 weeks</strong>. Bring lunch from home twice this week and you'll shave off 2 weeks. 🎧</div>
           </div>
           <div class="chat-msg user">
             <div class="chat-avatar user-av">ME</div>
