@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>mintd — money, made for you</title>
   <meta name="description" content="Empowering teens to manage their finances. mintd tracks spending, sets savings goals, and offers personalized AI money advice.">
-  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%2307080d' stroke='%2300e5a0' stroke-width='3'/%3E%3Ctext x='32' y='22' text-anchor='middle' font-family='Arial,sans-serif' font-weight='900' font-size='13' fill='%2300e5a0'%3E%24%3C/text%3E%3Ctext x='26' y='42' text-anchor='middle' font-family='Arial,sans-serif' font-weight='900' font-size='18' fill='%2300e5a0'%3Em%3C/text%3E%3Ctext x='46' y='46' text-anchor='middle' font-family='Arial,sans-serif' font-weight='900' font-size='13' fill='white'%3Ed%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
@@ -216,16 +216,15 @@
       filter: drop-shadow(0 0 40px rgba(0,229,160,0.08));
     }
 
-    /* App content positioned inside the screen area of the phone image */
-    /* Top bezel ~4.2%, bottom ~4.2%, left/right ~5.5% */
+    /* App content fills the entire phone frame — the iPhone image frame sits on top via mix-blend-mode */
     .phone-screen-area {
       position: absolute;
-      top: 4.2%;
-      left: 5.5%;
-      right: 5.5%;
-      bottom: 4.2%;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       background: var(--card);
-      border-radius: 38px;
+      border-radius: 46px;
       overflow: hidden;
     }
 
@@ -788,6 +787,115 @@
       .steps { gap: 40px; }
       footer { flex-direction: column; text-align: center; }
     }
+    /* ── WAITLIST FORM ── */
+    .waitlist-form-wrap {
+      max-width: 480px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .waitlist-form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+    }
+    .form-row { display: flex; flex-direction: column; gap: 18px; }
+    .form-row.two-col { flex-direction: row; gap: 14px; }
+    .form-row.two-col .form-group { flex: 1; }
+    .form-group { display: flex; flex-direction: column; gap: 7px; }
+    .form-group label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="tel"] {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+    .form-group input:focus {
+      border-color: rgba(0,229,160,0.5);
+      box-shadow: 0 0 0 3px rgba(0,229,160,0.08);
+    }
+    .form-group input::placeholder { color: rgba(138,148,166,0.5); }
+
+    .toggle-group {
+      display: flex;
+      gap: 10px;
+    }
+    .toggle-option {
+      flex: 1;
+      cursor: pointer;
+    }
+    .toggle-option input[type="radio"] { display: none; }
+    .toggle-option span {
+      display: block;
+      text-align: center;
+      padding: 11px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: all 0.18s;
+      cursor: pointer;
+    }
+    .toggle-option input[type="radio"]:checked + span {
+      border-color: var(--mint);
+      background: rgba(0,229,160,0.08);
+      color: var(--mint);
+    }
+    .toggle-option span:hover { border-color: rgba(0,229,160,0.3); color: var(--text); }
+
+    .form-disclaimer {
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-align: center;
+      opacity: 0.6;
+      margin-top: 4px;
+    }
+
+    /* Success state */
+    .form-success {
+      text-align: center;
+      padding: 48px 32px;
+      background: var(--card);
+      border: 1px solid rgba(0,229,160,0.2);
+      border-radius: 20px;
+    }
+    .success-icon {
+      font-size: 2.5rem;
+      color: var(--mint);
+      margin-bottom: 16px;
+    }
+    .form-success h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+    .form-success p { color: var(--muted); font-size: 0.9rem; }
+
+    @media (max-width: 540px) {
+      .form-row.two-col { flex-direction: column; }
+      .waitlist-form { padding: 24px 20px; }
+    }
+
   </style>
 </head>
 <body>
@@ -808,7 +916,7 @@
     <div class="hero-glow"></div>
     <div class="hero-badge">AI-powered teen finance</div>
     <h1>money skills<br>for the next<br><em>generation</em></h1>
-    <p class="hero-sub">Track spending, hit your savings goals, and get personalized advice — all powered by AI built for teens.</p>
+    <p class="hero-sub">track spending, hit your savings goals, and get personalized advice — all powered by AI built for teens.</p>
     <div class="hero-cta">
       <a href="#cta" class="btn-primary">Join the waitlist</a>
       <a href="#features" class="btn-ghost">See how it works</a>
@@ -901,38 +1009,38 @@
       <div class="features-grid">
         <div class="feature-card">
           <div class="feature-icon">📊</div>
-          <h3>Spend tracking</h3>
-          <p>See exactly where your money goes. mintd automatically sorts your transactions into clear categories so nothing gets lost.</p>
+          <h3>spend tracking</h3>
+          <p>see exactly where your money goes. mintd automatically sorts your transactions into clear categories so nothing gets lost.</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🎯</div>
-          <h3>Savings goals</h3>
-          <p>Set a goal, pick a deadline, and mintd shows you exactly how much to set aside each week to get there. Simple as that.</p>
+          <h3>savings goals</h3>
+          <p>set a goal, pick a deadline, and mintd shows you exactly how much to set aside each week to get there. simple as that.</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">✦</div>
           <h3>AI money coach</h3>
-          <p>Get personalized tips based on your real spending habits — not generic advice. Like a financial advisor, but actually fun to talk to.</p>
+          <p>get personalized tips based on your real spending habits — not generic advice. like a financial advisor, but actually fun to talk to.</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🔔</div>
-          <h3>Smart nudges</h3>
-          <p>Gentle reminders when you're close to a limit or within reach of a goal. Celebrate wins, catch overspending early.</p>
+          <h3>smart nudges</h3>
+          <p>gentle reminders when you're close to a limit or within reach of a goal. celebrate wins, catch overspending early.</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🔒</div>
-          <h3>Safe & private</h3>
-          <p>Your data is encrypted and never sold. mintd is built with teen privacy as a first principle, not an afterthought.</p>
+          <h3>safe & private</h3>
+          <p>your data is encrypted and never sold. mintd is built with teen privacy as a first principle, not an afterthought.</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">📈</div>
-          <h3>Money insights</h3>
-          <p>Weekly recaps and monthly trends show you how you're growing over time — so you can actually see the progress you're making.</p>
+          <h3>money insights</h3>
+          <p>weekly recaps and monthly trends show you how you're growing over time — so you can actually see the progress you're making.</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">💳</div>
           <h3>mintd card</h3>
-          <p>A digital card that lives in your app. Add it to Apple Pay and tap to pay anywhere — no physical card, no fraud risk, no wallet needed.</p>
+          <p>a digital card that lives in your app. add it to Apple Pay and tap to pay anywhere — no physical card, no fraud risk, no wallet needed.</p>
         </div>
       </div>
     </div>
@@ -946,23 +1054,23 @@
       <div class="steps">
         <div class="step">
           <div class="step-num">01</div>
-          <h3>Create your account</h3>
-          <p>Sign up in seconds — no bank required to get started. Free, always.</p>
+          <h3>create your account</h3>
+          <p>sign up in seconds — no bank required to get started. free, always.</p>
         </div>
         <div class="step">
           <div class="step-num">02</div>
-          <h3>Set your goals</h3>
-          <p>Tell mintd what you're saving for and when you want it. Big or small.</p>
+          <h3>set your goals</h3>
+          <p>tell mintd what you're saving for and when you want it. big or small.</p>
         </div>
         <div class="step">
           <div class="step-num">03</div>
-          <h3>Track your spending</h3>
-          <p>Log transactions manually or connect your account for auto-tracking.</p>
+          <h3>track your spending</h3>
+          <p>log transactions manually or connect your account for auto-tracking.</p>
         </div>
         <div class="step">
           <div class="step-num">04</div>
-          <h3>Let AI guide you</h3>
-          <p>Get personalized tips every week based on what you actually do.</p>
+          <h3>let AI guide you</h3>
+          <p>get personalized tips every week based on what you actually do.</p>
         </div>
       </div>
     </div>
@@ -1000,24 +1108,24 @@
           </div>
           <div class="card-perks">
             <div class="card-perk">
-              <div class="card-perk-icon"></div>
+              <div class="card-perk-icon">📱</div>
               <div class="card-perk-text">
                 <h4>Apple Pay ready</h4>
-                <p>Add your mintd card to Apple Pay in seconds and tap to pay anywhere contactless payments are accepted.</p>
+                <p>add your mintd card to Apple Pay in seconds and tap to pay anywhere contactless payments are accepted.</p>
               </div>
             </div>
             <div class="card-perk">
-              <div class="card-perk-icon"></div>
+              <div class="card-perk-icon">🛡️</div>
               <div class="card-perk-text">
-                <h4>No physical card, no fraud risk</h4>
-                <p>There's nothing to lose, steal, or clone. Your card number stays locked in the app — never exposed in your wallet.</p>
+                <h4>no physical card, no fraud risk</h4>
+                <p>there's nothing to lose, steal, or clone. your card number stays locked in the app — never exposed in your wallet.</p>
               </div>
             </div>
             <div class="card-perk">
-              <div class="card-perk-icon"></div>
+              <div class="card-perk-icon">⚡</div>
               <div class="card-perk-text">
-                <h4>Instant spend tracking</h4>
-                <p>Every tap updates your balance and spending categories in real time. No waiting for statements.</p>
+                <h4>instant spend tracking</h4>
+                <p>every tap updates your balance and spending categories in real time. no waiting for statements.</p>
               </div>
             </div>
           </div>
@@ -1036,48 +1144,48 @@
         <div class="ai-chat">
           <div class="chat-msg ai">
             <div class="chat-avatar ai-av">AI</div>
-            <div class="chat-bubble">Hey! You spent $47 on food this week — $12 more than usual. Want a quick tip to stay under budget?</div>
+            <div class="chat-bubble">hey! you spent $47 on food this week — $12 more than usual. want a quick tip to stay under budget?</div>
           </div>
           <div class="chat-msg user">
             <div class="chat-avatar user-av">ME</div>
-            <div class="chat-bubble">Yes please! I'm trying to save for AirPods</div>
+            <div class="chat-bubble">yes please! i'm trying to save for AirPods</div>
           </div>
           <div class="chat-msg ai">
             <div class="chat-avatar ai-av">AI</div>
-            <div class="chat-bubble">Nice goal! At your current savings rate, you'll get there in <strong>6 weeks</strong>. Bring lunch from home twice this week and you'll shave off 2 weeks. 🎧</div>
+            <div class="chat-bubble">nice goal! at your current savings rate, you'll get there in <strong>6 weeks</strong>. bring lunch from home twice this week and you'll shave off 2 weeks. 🎧</div>
           </div>
           <div class="chat-msg user">
             <div class="chat-avatar user-av">ME</div>
-            <div class="chat-bubble">That's actually doable. Setting a reminder now!</div>
+            <div class="chat-bubble">that's actually doable. setting a reminder now!</div>
           </div>
         </div>
         <div class="ai-points">
           <div class="ai-point">
             <div class="ai-dot"></div>
             <div>
-              <h4>Understands your context</h4>
+              <h4>understands your context</h4>
               <p>mintd's AI looks at your actual spending, goals, and habits — not a generic 20-something budget template.</p>
             </div>
           </div>
           <div class="ai-point">
             <div class="ai-dot"></div>
             <div>
-              <h4>Talks like a person</h4>
-              <p>No confusing finance jargon. Just clear, friendly advice you can actually act on right now.</p>
+              <h4>talks like a person</h4>
+              <p>no confusing finance jargon. just clear, friendly advice you can actually act on right now.</p>
             </div>
           </div>
           <div class="ai-point">
             <div class="ai-dot"></div>
             <div>
-              <h4>Gets smarter over time</h4>
-              <p>The more you use mintd, the better its advice gets. It learns your patterns and keeps improving its suggestions.</p>
+              <h4>gets smarter over time</h4>
+              <p>the more you use mintd, the better its advice gets. it learns your patterns and keeps improving its suggestions.</p>
             </div>
           </div>
           <div class="ai-point">
             <div class="ai-dot"></div>
             <div>
-              <h4>Always in your corner</h4>
-              <p>Zero judgment, zero lectures. mintd celebrates your wins and helps you bounce back from setbacks.</p>
+              <h4>always in your corner</h4>
+              <p>zero judgment, zero lectures. mintd celebrates your wins and helps you bounce back from setbacks.</p>
             </div>
           </div>
         </div>
@@ -1093,37 +1201,37 @@
       <div class="goals-grid">
         <div class="goal-card">
           <div class="goal-header">
-            <div class="goal-emoji"></div>
+            <div class="goal-emoji">🎧</div>
             <div class="goal-pct">73%</div>
           </div>
-          <div class="goal-title">New AirPods</div>
+          <div class="goal-title">new AirPods</div>
           <div class="goal-sub">$109 of $149 saved · 3 weeks to go</div>
           <div class="goal-bar"><div class="goal-fill" style="width:73%"></div></div>
         </div>
         <div class="goal-card">
           <div class="goal-header">
-            <div class="goal-emoji"></div>
+            <div class="goal-emoji">🏖️</div>
             <div class="goal-pct">41%</div>
           </div>
-          <div class="goal-title">Atlanta Trip</div>
+          <div class="goal-title">atlanta trip</div>
           <div class="goal-sub">$205 of $500 saved · 8 weeks to go</div>
           <div class="goal-bar"><div class="goal-fill" style="width:41%"></div></div>
         </div>
         <div class="goal-card">
           <div class="goal-header">
-            <div class="goal-emoji"></div>
+            <div class="goal-emoji">🎮</div>
             <div class="goal-pct">88%</div>
           </div>
-          <div class="goal-title">New game</div>
+          <div class="goal-title">new game</div>
           <div class="goal-sub">$53 of $60 saved · 1 week to go</div>
           <div class="goal-bar"><div class="goal-fill" style="width:88%"></div></div>
         </div>
         <div class="goal-card">
           <div class="goal-header">
-            <div class="goal-emoji"></div>
+            <div class="goal-emoji">📸</div>
             <div class="goal-pct">22%</div>
           </div>
-          <div class="goal-title">Camera lens</div>
+          <div class="goal-title">camera lens</div>
           <div class="goal-sub">$66 of $299 saved · 12 weeks to go</div>
           <div class="goal-bar"><div class="goal-fill" style="width:22%"></div></div>
         </div>
@@ -1133,10 +1241,57 @@
 
   <!-- CTA -->
   <section id="cta" class="cta-section">
-    <div class="section-tag" style="justify-content:center">Waitlist</div>
+    <div class="section-tag" style="justify-content:center">waitlist</div>
     <h2>your money journey<br>starts <em>today</em></h2>
-    <p>Join thousands of teens building real money habits. Free to use, no credit card needed.</p>
-    <a href="#" class="btn-primary">Join the waitlist →</a>
+    <p>join thousands of teens building real money habits. free to use, no credit card needed.</p>
+
+    <div class="waitlist-form-wrap">
+      <form class="waitlist-form" action="https://formspree.io/f/xbdbzqbp" method="POST" id="waitlistForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="wl-name">your name</label>
+            <input type="text" id="wl-name" name="name" placeholder="advik sinha" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>i am a...</label>
+          <div class="toggle-group">
+            <label class="toggle-option">
+              <input type="radio" name="role" value="teen" required>
+              <span>teen 👾</span>
+            </label>
+            <label class="toggle-option">
+              <input type="radio" name="role" value="parent">
+              <span>parent 👋</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-row two-col">
+          <div class="form-group">
+            <label for="wl-email">email</label>
+            <input type="email" id="wl-email" name="email" placeholder="you@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="wl-phone">phone number</label>
+            <input type="tel" id="wl-phone" name="phone" placeholder="(555) 000-0000">
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" style="width:100%;margin-top:8px;font-size:1rem;">
+          join the waitlist →
+        </button>
+
+        <p class="form-disclaimer">no spam, ever. we'll only reach out when mintd is ready for you.</p>
+      </form>
+
+      <div class="form-success" id="formSuccess" style="display:none;">
+        <div class="success-icon">✦</div>
+        <h3>you're on the list!</h3>
+        <p>we'll be in touch when mintd launches. tell your friends.</p>
+      </div>
+    </div>
   </section>
 
   <!-- FOOTER -->
@@ -1144,6 +1299,35 @@
     <div class="footer-logo">mintd</div>
     <p>© 2026 mintd. Built for teens who mean business.</p>
   </footer>
-
+  <script>
+    // Waitlist form — submits to Formspree, shows success state on completion
+    const form = document.getElementById('waitlistForm');
+    const success = document.getElementById('formSuccess');
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button[type="submit"]');
+        btn.textContent = 'sending...';
+        btn.disabled = true;
+        try {
+          const res = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
+          });
+          if (res.ok) {
+            form.style.display = 'none';
+            success.style.display = 'block';
+          } else {
+            btn.textContent = 'something went wrong — try again';
+            btn.disabled = false;
+          }
+        } catch {
+          btn.textContent = 'something went wrong — try again';
+          btn.disabled = false;
+        }
+      });
+    }
+  </script>
 </body>
 </html>
