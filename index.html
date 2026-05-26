@@ -620,6 +620,182 @@
     }
 
     /* ── RESPONSIVE ── */
+
+    /* ── MINTD CARD SECTION ── */
+    .card-section { background: var(--bg2); overflow: hidden; }
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      margin-top: 60px;
+    }
+
+    /* The card itself */
+    .mintd-card-wrap {
+      perspective: 1000px;
+      display: flex;
+      justify-content: center;
+    }
+    .mintd-card {
+      width: 320px;
+      height: 200px;
+      background: linear-gradient(145deg, #1a1a1a 0%, #0a0a0a 60%, #111 100%);
+      border-radius: 20px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 40px 80px rgba(0,0,0,0.7),
+        0 0 0 1px rgba(255,255,255,0.07),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+      transform: rotate(-2deg) rotateY(4deg);
+      transition: transform 0.4s ease;
+    }
+    .mintd-card:hover {
+      transform: rotate(0deg) rotateY(0deg) translateY(-6px);
+    }
+
+    /* Subtle shine overlay */
+    .mintd-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 50%, rgba(0,229,160,0.03) 100%);
+      border-radius: 20px;
+      pointer-events: none;
+    }
+
+    /* Decorative circle blobs */
+    .card-blob {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .card-blob-1 {
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, rgba(0,229,160,0.06) 0%, transparent 70%);
+      top: -60px; right: -40px;
+    }
+    .card-blob-2 {
+      width: 120px; height: 120px;
+      background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+      bottom: -30px; left: -20px;
+    }
+
+    /* Chip */
+    .card-chip {
+      width: 38px; height: 28px;
+      background: linear-gradient(135deg, #c8a84b, #f0d060, #a07820, #e8c84a);
+      border-radius: 5px;
+      margin-bottom: 24px;
+      position: relative;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+    .card-chip::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border: 1px solid rgba(0,0,0,0.2);
+      border-radius: 3px;
+    }
+
+    /* Card number */
+    .card-number {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 14px;
+    }
+
+    /* Card bottom row */
+    .card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .card-holder {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .card-holder strong {
+      display: block;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.7);
+      font-weight: 600;
+      margin-bottom: 2px;
+      letter-spacing: 0.05em;
+    }
+
+    /* mintd logo on card */
+    .card-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      letter-spacing: -0.03em;
+      color: var(--mint);
+      line-height: 1;
+    }
+    .card-logo span { color: rgba(255,255,255,0.5); }
+
+    /* Apple Pay badge */
+    .card-applepay {
+      position: absolute;
+      top: 22px; right: 24px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 100px;
+      padding: 5px 10px;
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.5);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .card-applepay::before {
+      content: '';
+      width: 12px; height: 12px;
+      background: rgba(255,255,255,0.6);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Card section copy */
+    .card-copy { display: flex; flex-direction: column; gap: 28px; }
+    .card-copy h2 { max-width: 100%; }
+    .card-perks { display: flex; flex-direction: column; gap: 16px; margin-top: 8px; }
+    .card-perk {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 18px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .card-perk-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .card-perk-text h4 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 3px;
+    }
+    .card-perk-text p { color: var(--muted); font-size: 0.82rem; line-height: 1.5; }
+
+    @media (max-width: 768px) {
+      .card-grid { grid-template-columns: 1fr; gap: 48px; }
+      .mintd-card { width: 100%; max-width: 320px; }
+    }
+
     @media (max-width: 768px) {
       nav { padding: 16px 20px; }
       .nav-links { display: none; }
@@ -694,14 +870,14 @@
                 </div>
               </div>
               <div class="phone-bar-label">
-                <span>🎧 New headphones</span>
+                <span>🎧 New AirPods</span>
                 <span>73%</span>
               </div>
               <div class="phone-bar">
                 <div class="phone-bar-fill" style="width:73%"></div>
               </div>
               <div class="phone-bar-label">
-                <span>🏖️ Summer trip</span>
+                <span>🗺️ Atlanta Trip</span>
                 <span>41%</span>
               </div>
               <div class="phone-bar">
@@ -709,7 +885,7 @@
               </div>
               <div class="phone-ai">
                 <strong>✦ mintd AI</strong>
-                Skip one coffee run this week and hit your headphones goal 3 days early! ☕→🎧
+                Skip one coffee run this week and hit your AirPods goal 3 days early! ☕→🎧
               </div>
             </div>
           </div>
@@ -778,6 +954,11 @@
           <h3>Money insights</h3>
           <p>Weekly recaps and monthly trends show you how you're growing over time — so you can actually see the progress you're making.</p>
         </div>
+        <div class="feature-card">
+          <div class="feature-icon">💳</div>
+          <h3>mintd card</h3>
+          <p>A digital card that lives in your app. Add it to Apple Pay and tap to pay anywhere — no physical card, no fraud risk, no wallet needed.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -808,6 +989,65 @@
           <h3>Let AI guide you</h3>
           <p>Get personalized tips every week based on what you actually do.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MINTD CARD -->
+  <section id="card" class="card-section">
+    <div class="container">
+      <div class="section-tag">mintd Card</div>
+      <div class="card-grid">
+
+        <!-- Card visual -->
+        <div class="mintd-card-wrap">
+          <div class="mintd-card">
+            <div class="card-blob card-blob-1"></div>
+            <div class="card-blob card-blob-2"></div>
+            <div class="card-applepay"> Pay</div>
+            <div class="card-chip"></div>
+            <div class="card-number">•••• &nbsp;•••• &nbsp;•••• &nbsp;4291</div>
+            <div class="card-bottom">
+              <div class="card-holder">
+                <strong>JORDAN LEE</strong>
+                Valid thru 09/28
+              </div>
+              <div class="card-logo">mint<span>d</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Copy -->
+        <div class="card-copy">
+          <div>
+            <div class="section-tag">Digital-only</div>
+            <h2>your card lives in your <em>phone</em></h2>
+          </div>
+          <div class="card-perks">
+            <div class="card-perk">
+              <div class="card-perk-icon">📱</div>
+              <div class="card-perk-text">
+                <h4>Apple Pay ready</h4>
+                <p>Add your mintd card to Apple Pay in seconds and tap to pay anywhere contactless payments are accepted.</p>
+              </div>
+            </div>
+            <div class="card-perk">
+              <div class="card-perk-icon">🛡️</div>
+              <div class="card-perk-text">
+                <h4>No physical card, no fraud risk</h4>
+                <p>There's nothing to lose, steal, or clone. Your card number stays locked in the app — never exposed in your wallet.</p>
+              </div>
+            </div>
+            <div class="card-perk">
+              <div class="card-perk-icon">⚡</div>
+              <div class="card-perk-text">
+                <h4>Instant spend tracking</h4>
+                <p>Every tap updates your balance and spending categories in real time. No waiting for statements.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -878,25 +1118,25 @@
       <div class="goals-grid">
         <div class="goal-card">
           <div class="goal-header">
-            <div class="goal-emoji">🎧</div>
+            <div class="goal-emoji"></div>
             <div class="goal-pct">73%</div>
           </div>
-          <div class="goal-title">New headphones</div>
+          <div class="goal-title">New AirPods</div>
           <div class="goal-sub">$109 of $149 saved · 3 weeks to go</div>
           <div class="goal-bar"><div class="goal-fill" style="width:73%"></div></div>
         </div>
         <div class="goal-card">
           <div class="goal-header">
-            <div class="goal-emoji">🏖️</div>
+            <div class="goal-emoji"></div>
             <div class="goal-pct">41%</div>
           </div>
-          <div class="goal-title">Summer trip</div>
+          <div class="goal-title">Atlanta Trip</div>
           <div class="goal-sub">$205 of $500 saved · 8 weeks to go</div>
           <div class="goal-bar"><div class="goal-fill" style="width:41%"></div></div>
         </div>
         <div class="goal-card">
           <div class="goal-header">
-            <div class="goal-emoji">🎮</div>
+            <div class="goal-emoji"></div>
             <div class="goal-pct">88%</div>
           </div>
           <div class="goal-title">New game</div>
@@ -905,7 +1145,7 @@
         </div>
         <div class="goal-card">
           <div class="goal-header">
-            <div class="goal-emoji">📸</div>
+            <div class="goal-emoji"></div>
             <div class="goal-pct">22%</div>
           </div>
           <div class="goal-title">Camera lens</div>
